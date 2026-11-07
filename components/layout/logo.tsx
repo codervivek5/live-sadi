@@ -18,7 +18,7 @@ export function Logo({ className, tone = "dark" }: { className?: string; tone?: 
         <path d="M12.5 22v-7a3.5 3.5 0 0 1 7 0v7z" fill={tone === "dark" ? "#d4af75" : "#4a1226"} />
       </svg>
       <span>
-        Live <span className={tone === "dark" ? "text-gold" : "text-gold"}>Shadi</span>
+        Live <span className="text-gold">Shadi</span>
       </span>
     </Link>
   );

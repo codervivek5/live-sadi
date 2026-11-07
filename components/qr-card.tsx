@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import { Check, Copy, Download, MessageCircle } from "lucide-react";
 import { Button } from "./button";
+import { cn } from "@/lib/utils";
 
 export function QrCard({ slug, names }: { slug: string; names: string }) {
   const [url, setUrl] = useState("");
@@ -26,7 +27,8 @@ export function QrCard({ slug, names }: { slug: string; names: string }) {
 
   async function copy() {
     try {
-      await navigator.clipboard.writeText(url);
+      const target = url || (typeof window !== "undefined" ? `${window.location.origin}/w/${slug}` : `/w/${slug}`);
+      await navigator.clipboard.writeText(target);
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
@@ -34,7 +36,8 @@ export function QrCard({ slug, names }: { slug: string; names: string }) {
     }
   }
 
-  const wa = `https://wa.me/?text=${encodeURIComponent(`${names} ki shaadi live dekhein 💛 ${url}`)}`;
+  const shareUrl = url || (typeof window !== "undefined" ? `${window.location.origin}/w/${slug}` : `/w/${slug}`);
+  const wa = `https://wa.me/?text=${encodeURIComponent(`${names} ki shaadi live dekhein 💛 ${shareUrl}`)}`;
 
   return (
     <div className="rounded-2xl border border-line bg-white p-5 text-center">
@@ -49,10 +52,16 @@ export function QrCard({ slug, names }: { slug: string; names: string }) {
       <p className="mt-3 break-all text-xs text-muted">{url || `/w/${slug}`}</p>
       <div className="mt-4 flex flex-wrap justify-center gap-2">
         <a
-          href={qr}
-          download={`${slug}-qr.png`}
+          href={qr || undefined}
+          download={qr ? `${slug}-qr.png` : undefined}
           aria-disabled={!qr}
-          className="inline-flex items-center gap-2 rounded-full bg-maroon px-4 py-2 text-sm font-medium text-white hover:bg-maroon-dark"
+          onClick={(e) => {
+            if (!qr) e.preventDefault();
+          }}
+          className={cn(
+            "inline-flex items-center gap-2 rounded-full bg-maroon px-4 py-2 text-sm font-medium text-white hover:bg-maroon-dark",
+            !qr && "pointer-events-none opacity-50",
+          )}
         >
           <Download className="size-4" /> QR download
         </a>
@@ -63,7 +72,7 @@ export function QrCard({ slug, names }: { slug: string; names: string }) {
         <a
           href={wa}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-full border border-maroon/30 px-4 py-2 text-sm font-medium text-maroon hover:bg-rose"
         >
           <MessageCircle className="size-4" /> WhatsApp

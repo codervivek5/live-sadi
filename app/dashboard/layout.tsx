@@ -24,6 +24,7 @@ export default function DashboardLayout({ children }: LayoutProps<"/dashboard">)
             <Link
               href={`/w/${wedding.slug}`}
               target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 rounded-full border border-maroon/30 px-3.5 py-1.5 font-medium text-maroon hover:bg-rose"
             >
               Page dekhein <ExternalLink className="size-3.5" />

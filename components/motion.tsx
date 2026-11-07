@@ -17,7 +17,7 @@ export function Reveal({
   // `immediate` is for above-the-fold content: animate on load instead of waiting to scroll into view
   const trigger = immediate
     ? { animate: { opacity: 1, y: 0 } }
-    : { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-60px" } };
+    : { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "0px -20px" } };
   return (
     <motion.div
       initial={{ opacity: 0, y }}
@@ -49,7 +49,7 @@ export function Stagger({
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ once: true, margin: "0px -20px" }}
       variants={{ hidden: {}, show: { transition: { staggerChildren: gap } } }}
     >
       {children}

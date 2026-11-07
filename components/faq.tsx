@@ -15,6 +15,7 @@ export function Faq({ items }: { items: { q: string; a: string }[] }) {
           <div key={f.q}>
             <h3>
               <button
+                id={`faq-btn-${i}`}
                 type="button"
                 aria-expanded={isOpen}
                 aria-controls={`faq-${i}`}
@@ -32,6 +33,7 @@ export function Faq({ items }: { items: { q: string; a: string }[] }) {
                 <motion.div
                   id={`faq-${i}`}
                   role="region"
+                  aria-labelledby={`faq-btn-${i}`}
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}

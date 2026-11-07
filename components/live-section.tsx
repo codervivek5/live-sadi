@@ -81,8 +81,12 @@ function Player({ event, poster }: { event: WeddingEvent; poster: string }) {
 
 export function LiveSection({ events, poster }: { events: WeddingEvent[]; poster: string }) {
   const firstLive = events.find((e) => e.status === "live") ?? events.find((e) => e.status === "upcoming") ?? events[0];
-  const [selectedId, setSelectedId] = useState(firstLive.id);
-  const selected = events.find((e) => e.id === selectedId)!;
+  const [selectedId, setSelectedId] = useState(firstLive?.id ?? "");
+  const selected = events.find((e) => e.id === selectedId) ?? firstLive;
+
+  if (!selected) {
+    return <p className="py-10 text-center text-muted">Abhi koi function nahi hai.</p>;
+  }
 
   return (
     <div className="grid gap-6 lg:grid-cols-5">
@@ -104,7 +108,7 @@ export function LiveSection({ events, poster }: { events: WeddingEvent[]; poster
                 <li className="flex items-center gap-2">
                   <MapPin className="size-4 text-gold" />
                   {selected.venue} ·{" "}
-                  <a className="text-maroon underline" target="_blank" rel="noreferrer" href={`https://www.google.com/maps/search/${encodeURIComponent(selected.venue + " " + selected.address)}`}>
+                  <a className="text-maroon underline" target="_blank" rel="noopener noreferrer" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selected.venue + " " + selected.address)}`}>
                     Map
                   </a>
                 </li>

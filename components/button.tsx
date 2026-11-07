@@ -22,14 +22,15 @@ export function ButtonLink({
   variant = "primary",
   className,
   children,
+  ...props
 }: {
   href: string;
   variant?: Variant;
   className?: string;
   children: React.ReactNode;
-}) {
+} & Omit<React.ComponentProps<typeof Link>, "href" | "className" | "children">) {
   return (
-    <Link href={href} className={buttonClass(variant, className)}>
+    <Link href={href} className={buttonClass(variant, className)} {...props}>
       {children}
     </Link>
   );

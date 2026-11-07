@@ -39,7 +39,15 @@ export function GuestUpload() {
         </motion.div>
         <h3 className="mt-3 font-display text-xl text-maroon">Shukriya{name ? `, ${name}` : ""}!</h3>
         <p className="mt-1 text-sm text-muted">Aapki {files.length} photos/videos mil gayi. Dulha-dulhan ki approval ke baad gallery mein dikhengi.</p>
-        <Button className="mt-4" variant="outline" onClick={() => { setSent(false); setFiles([]); }}>
+        <Button
+          className="mt-4"
+          variant="outline"
+          onClick={() => {
+            files.forEach((f) => URL.revokeObjectURL(f.url));
+            setSent(false);
+            setFiles([]);
+          }}
+        >
           Aur bhejein
         </Button>
       </motion.div>
@@ -86,7 +94,10 @@ export function GuestUpload() {
                 <button
                   type="button"
                   aria-label={`${f.name} hatayein`}
-                  onClick={() => setFiles((p) => p.filter((x) => x.id !== f.id))}
+                  onClick={() => {
+                    URL.revokeObjectURL(f.url);
+                    setFiles((p) => p.filter((x) => x.id !== f.id));
+                  }}
                   className="absolute right-1 top-1 rounded-full bg-black/60 p-0.5 text-white"
                 >
                   <X className="size-3.5" />

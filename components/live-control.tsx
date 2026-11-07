@@ -46,8 +46,12 @@ function CopyRow({ label, value, secret }: { label: string; value: string; secre
 
 export function LiveControl({ events }: { events: WeddingEvent[] }) {
   const [liveId, setLiveId] = useState<string | null>(events.find((e) => e.status === "live")?.id ?? null);
-  const [selected, setSelected] = useState(liveId ?? events.find((e) => e.status === "upcoming")?.id ?? events[0].id);
-  const isLive = liveId === selected;
+  const [selected, setSelected] = useState(liveId ?? events.find((e) => e.status === "upcoming")?.id ?? events[0]?.id ?? "");
+  const isLive = liveId !== null && liveId === selected;
+
+  if (events.length === 0) {
+    return <p className="py-10 text-center text-muted">Koi function shamil nahi hai.</p>;
+  }
 
   return (
     <div className="space-y-5">

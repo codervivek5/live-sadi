@@ -23,7 +23,7 @@ export function ExploreTeaser() {
         </Reveal>
 
         <Stagger gap={0.08} className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 md:grid-rows-2">
-          <StaggerItem className="sm:col-span-2 md:row-span-2">
+          <StaggerItem className="sm:col-span-2 md:row-span-2 md:h-full">
             <CelebrationCard item={first} featured />
           </StaggerItem>
           {rest.map((c) => (

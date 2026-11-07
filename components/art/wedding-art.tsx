@@ -72,14 +72,18 @@ function Pheras({ id }: { id: string }) {
         <rect key={x} x={x} y="128" width={i === 0 || i === 3 ? 9 : 6} height="122" fill="#cf9f42" opacity={i === 0 || i === 3 ? 1 : 0.7} />
       ))}
       <rect x="98" y="250" width="204" height="14" rx="3" fill="#7d4f1a" />
-      {[138, 176, 224, 262].map((x, i) => (
-        <g key={x}>
-          <line x1={x} y1="130" x2={x} y2={beads(5 + (i % 2) * 2).at(-1)} stroke="#7a4a10" strokeWidth="0.8" />
-          {beads(5 + (i % 2) * 2).map((y) => (
-            <circle key={y} cx={x} cy={y} r="3.8" fill={y % 2 ? "#f5a623" : "#ff8a00"} />
-          ))}
-        </g>
-      ))}
+      {[138, 176, 224, 262].map((x, i) => {
+        const b = beads(5 + (i % 2) * 2);
+        const lastY = b[b.length - 1];
+        return (
+          <g key={x}>
+            <line x1={x} y1="130" x2={x} y2={lastY} stroke="#7a4a10" strokeWidth="0.8" />
+            {b.map((y) => (
+              <circle key={y} cx={x} cy={y} r="3.8" fill={y % 2 ? "#f5a623" : "#ff8a00"} />
+            ))}
+          </g>
+        );
+      })}
       <g fill="#14050b">
         <circle cx="168" cy="204" r="9" />
         <rect x="155" y="214" width="26" height="38" rx="11" />

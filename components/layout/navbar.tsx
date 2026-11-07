@@ -132,6 +132,7 @@ export function Navbar() {
                     <Link
                       ref={i === 0 ? firstLinkRef : undefined}
                       href={item.href}
+                      onClick={() => setOpen(false)}
                       aria-current={isActive(item.href) ? "page" : undefined}
                       className={cn(
                         "font-display block rounded-xl px-3 py-3 text-2xl",
@@ -144,10 +145,10 @@ export function Navbar() {
                 ))}
               </ul>
               <div className="mt-auto grid grid-cols-2 gap-3">
-                <ButtonLink href="/dashboard" variant="outline" className="py-3">
+                <ButtonLink href="/dashboard" variant="outline" className="py-3" onClick={() => setOpen(false)}>
                   Login
                 </ButtonLink>
-                <ButtonLink href="/register" className="py-3">
+                <ButtonLink href="/register" className="py-3" onClick={() => setOpen(false)}>
                   Sign Up
                 </ButtonLink>
               </div>

@@ -68,7 +68,7 @@ export function PrivacySettings({ events, slug, names }: { events: WeddingEvent[
           {events.map((e) => (
             <li key={e.id} className="flex items-center justify-between py-3 text-sm">
               <span>{e.emoji} {e.name}</span>
-              <Toggle on={vis[e.id]} onChange={(v) => setVis({ ...vis, [e.id]: v })} label={`${e.name} sabko dikhe`} />
+              <Toggle on={Boolean(vis[e.id])} onChange={(v) => setVis({ ...vis, [e.id]: v })} label={`${e.name} sabko dikhe`} />
             </li>
           ))}
         </ul>

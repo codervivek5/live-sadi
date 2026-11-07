@@ -43,16 +43,16 @@ export function RegisterFlow({ initialPackage }: { initialPackage?: Package["id"
     eventPresets.map((p, i) => ({ ...p, on: i < 5, date: "", time: "", venue: "" })),
   );
   const [pkgId, setPkgId] = useState<Package["id"]>(initialPackage ?? "standard");
-  const pkg = packages.find((p) => p.id === pkgId)!;
+  const pkg = packages.find((p) => p.id === pkgId) ?? packages[1];
 
   const slug = useMemo(() => {
     const base = slugify(`${couple.groom}-weds-${couple.bride}`);
-    return couple.groom && couple.bride ? base : "your-wedding";
+    return couple.groom.trim() && couple.bride.trim() && base ? base : "your-wedding";
   }, [couple.groom, couple.bride]);
 
   const canNext =
     step === 0
-      ? couple.groom.trim() && couple.bride.trim() && couple.city.trim() && /^\d{10}$/.test(couple.phone)
+      ? Boolean(couple.groom.trim() && couple.bride.trim() && couple.city.trim() && /^\d{10}$/.test(couple.phone))
       : step === 1
         ? fns.some((f) => f.on)
         : true;
@@ -151,12 +151,18 @@ export function RegisterFlow({ initialPackage }: { initialPackage?: Package["id"
                 inputMode="numeric"
                 maxLength={10}
                 value={couple.phone}
-                onChange={(e) => setCouple({ ...couple, phone: e.target.value.replace(/\D/g, "") })}
+                onChange={(e) => {
+                  let val = e.target.value.replace(/\D/g, "");
+                  if (val.length === 12 && val.startsWith("91")) {
+                    val = val.slice(2);
+                  }
+                  setCouple({ ...couple, phone: val.slice(0, 10) });
+                }}
                 placeholder="10 digit number"
               />
             </label>
             <p className="text-xs text-muted sm:col-span-2">
-              Aapka link hoga: <span className="font-medium text-maroon">liveshadi.in/{slug}</span>
+              Aapka link hoga: <span className="font-medium text-maroon">liveshadi.in/w/{slug}</span>
             </p>
           </div>
         )}

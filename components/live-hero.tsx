@@ -138,6 +138,7 @@ export function LiveHero() {
 
   // blessings arrive one by one
   useEffect(() => {
+    if (blessings.length <= 1) return;
     const id = setInterval(() => setMsgIndex((i) => (i + 1) % blessings.length), 3200);
     return () => clearInterval(id);
   }, []);
@@ -206,26 +207,28 @@ export function LiveHero() {
       <p className="mt-5 text-center text-xs text-white/60">Demo preview of a Live Shadi wedding page</p>
 
       {/* live blessings feed */}
-      <div className="absolute -left-4 top-32 w-56 sm:-left-14">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={msg.id}
-            initial={{ opacity: 0, x: -16, scale: 0.95 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.35, ease }}
-            className="flex items-start gap-2.5 rounded-2xl bg-white p-3 shadow-xl"
-          >
-            <span className="grid size-8 shrink-0 place-items-center rounded-full bg-gold-soft text-sm font-semibold text-maroon">
-              {msg.name[0]}
-            </span>
-            <span className="min-w-0 text-xs leading-snug text-maroon-dark">
-              <span className="block font-semibold">{msg.name}, {msg.city}</span>
-              <span className="line-clamp-2 text-muted">{msg.message}</span>
-            </span>
-          </motion.div>
-        </AnimatePresence>
-      </div>
+      {msg && (
+        <div className="absolute -left-4 top-32 w-56 sm:-left-14">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={msg.id}
+              initial={{ opacity: 0, x: -16, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.35, ease }}
+              className="flex items-start gap-2.5 rounded-2xl bg-white p-3 shadow-xl"
+            >
+              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-gold-soft text-sm font-semibold text-maroon">
+                {msg.name[0] ?? "💛"}
+              </span>
+              <span className="min-w-0 text-xs leading-snug text-maroon-dark">
+                <span className="block font-semibold">{msg.name}, {msg.city}</span>
+                <span className="line-clamp-2 text-muted">{msg.message}</span>
+              </span>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      )}
 
       {/* where people are watching from */}
       <motion.div

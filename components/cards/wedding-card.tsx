@@ -16,17 +16,21 @@ export type WeddingCardData = {
 export function WeddingCard({ wedding }: { wedding: WeddingCardData }) {
   return (
     <article className="group overflow-hidden rounded-3xl border border-line bg-white transition-shadow duration-300 hover:shadow-xl">
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <Link href={`/w/${wedding.slug}`} className="relative block aspect-[4/3] overflow-hidden" tabIndex={-1} aria-hidden="true">
         <WeddingArt variant={wedding.art} className="size-full transition-transform duration-700 ease-out group-hover:scale-105" />
         {wedding.demo && (
           <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-maroon">
             Demo wedding
           </span>
         )}
-      </div>
+      </Link>
       <div className="p-5">
         <p className="text-xs text-muted">{wedding.style}</p>
-        <h3 className="font-display mt-1 text-2xl font-semibold text-maroon">{wedding.title}</h3>
+        <h3 className="font-display mt-1 text-2xl font-semibold text-maroon">
+          <Link href={`/w/${wedding.slug}`} className="hover:underline">
+            {wedding.title}
+          </Link>
+        </h3>
         <ul className="mt-3 space-y-1.5 text-sm text-muted">
           <li className="flex items-center gap-2">
             <MapPin className="size-4 text-gold" aria-hidden /> {wedding.city}

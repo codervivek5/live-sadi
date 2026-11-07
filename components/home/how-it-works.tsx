@@ -19,21 +19,23 @@ export function HowItWorks() {
           <p className="mt-3 max-w-xl text-muted">Four simple steps from registration to memories that last.</p>
         </Reveal>
 
-        <Stagger as="ol" gap={0.12} className="relative mt-12 grid gap-10 md:grid-cols-4">
+        <div className="relative mt-12">
           <div aria-hidden className="absolute left-0 right-0 top-7 hidden border-t border-dashed border-gold md:block" />
-          {steps.map((s, i) => (
-            <StaggerItem as="li" key={s.title} className="relative">
-              <span className="relative grid size-14 place-items-center rounded-full border border-gold bg-gold-soft text-maroon">
-                <s.icon className="size-6" aria-hidden />
-                <span className="absolute -right-1 -top-1 grid size-5 place-items-center rounded-full bg-maroon text-[11px] font-semibold text-white">
-                  {i + 1}
+          <Stagger as="ol" gap={0.12} className="relative grid gap-10 md:grid-cols-4">
+            {steps.map((s, i) => (
+              <StaggerItem as="li" key={s.title} className="relative">
+                <span className="relative grid size-14 place-items-center rounded-full border border-gold bg-gold-soft text-maroon">
+                  <s.icon className="size-6" aria-hidden />
+                  <span className="absolute -right-1 -top-1 grid size-5 place-items-center rounded-full bg-maroon text-[11px] font-semibold text-white">
+                    {i + 1}
+                  </span>
                 </span>
-              </span>
-              <h3 className="font-display mt-5 text-2xl text-maroon">{s.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{s.text}</p>
-            </StaggerItem>
-          ))}
-        </Stagger>
+                <h3 className="font-display mt-5 text-2xl text-maroon">{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{s.text}</p>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
       </div>
     </section>
   );

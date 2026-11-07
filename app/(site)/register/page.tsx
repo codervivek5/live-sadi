@@ -11,7 +11,7 @@ const description =
 export const metadata = pageMetadata({ title: "Register Your Wedding", description, path: "/register" });
 
 async function RegisterContent({ searchParams }: { searchParams: PageProps<"/register">["searchParams"] }) {
-  const sp = await searchParams;
+  const sp = (await searchParams) ?? {};
   const raw = Array.isArray(sp.package) ? sp.package[0] : sp.package;
   const initial = raw === "basic" || raw === "standard" || raw === "premium" ? raw : undefined;
   return <RegisterFlow initialPackage={initial} />;

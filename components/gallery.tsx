@@ -17,6 +17,7 @@ export function Gallery({ items, events }: { items: MediaItem[]; events: Wedding
 
   const step = useCallback(
     (d: number) => {
+      if (shown.length === 0) return;
       setDir(d);
       setOpen((i) => (i === null ? i : (i + d + shown.length) % shown.length));
     },
@@ -25,16 +26,21 @@ export function Gallery({ items, events }: { items: MediaItem[]; events: Wedding
 
   useEffect(() => {
     if (open === null) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(null);
       if (e.key === "ArrowRight") step(1);
       if (e.key === "ArrowLeft") step(-1);
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
   }, [open, step]);
 
-  const current = open !== null ? shown[open] : null;
+  const current = open !== null && open >= 0 && open < shown.length ? shown[open] : null;
 
   return (
     <div>
@@ -43,7 +49,10 @@ export function Gallery({ items, events }: { items: MediaItem[]; events: Wedding
           <button
             key={t.id}
             type="button"
-            onClick={() => setFilter(t.id)}
+            onClick={() => {
+              setFilter(t.id);
+              setOpen(null);
+            }}
             className={cn(
               "relative rounded-full border px-4 py-1.5 text-sm transition-colors",
               filter === t.id ? "border-transparent text-white" : "border-line bg-white text-muted hover:border-maroon/40",

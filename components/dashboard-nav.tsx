@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "motion/react";
 import { CalendarDays, Images, LayoutDashboard, Radio, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,11 +26,18 @@ export function DashboardNav() {
             href={href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "flex items-center gap-2.5 whitespace-nowrap rounded-xl px-3.5 py-2.5 text-sm font-medium",
-              active ? "bg-maroon text-white" : "text-muted hover:bg-rose hover:text-maroon",
+              "relative flex items-center gap-2.5 whitespace-nowrap rounded-xl px-3.5 py-2.5 text-sm font-medium transition-colors",
+              active ? "text-white" : "text-muted hover:bg-rose hover:text-maroon",
             )}
           >
-            <Icon className="size-4" /> {label}
+            {active && (
+              <motion.span
+                layoutId="dash-nav-pill"
+                className="absolute inset-0 rounded-xl bg-maroon"
+                transition={{ type: "spring", stiffness: 420, damping: 34 }}
+              />
+            )}
+            <Icon className="relative size-4" /> <span className="relative">{label}</span>
           </Link>
         );
       })}

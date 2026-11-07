@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { MapPin, Plus } from "lucide-react";
+import { Stagger, StaggerItem } from "@/components/motion";
 import { wedding } from "@/lib/data";
 import { formatDate, formatTime } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Functions — Live Shadi" };
+export const metadata: Metadata = { title: "Functions" };
 
 export default function EventsPage() {
   return (
@@ -14,9 +15,9 @@ export default function EventsPage() {
           <Plus className="size-4" /> Function jodein
         </button>
       </div>
-      <ul className="space-y-3">
+      <Stagger as="ul" className="space-y-3" gap={0.07}>
         {wedding.events.map((e) => (
-          <li key={e.id} className="flex flex-wrap items-center gap-4 rounded-2xl border border-line bg-white p-4">
+          <StaggerItem as="li" key={e.id} className="flex flex-wrap items-center gap-4 rounded-2xl border border-line bg-white p-4 transition-shadow hover:shadow-md">
             <span className="grid size-12 place-items-center rounded-xl bg-gold-soft text-2xl">{e.emoji}</span>
             <div className="min-w-0 flex-1">
               <p className="font-semibold">{e.name} <span className="text-muted">· {e.nameHi}</span></p>
@@ -34,9 +35,9 @@ export default function EventsPage() {
             >
               {e.status === "live" ? "LIVE" : e.status === "ended" ? "Khatam" : "Aane wala"}
             </span>
-          </li>
+          </StaggerItem>
         ))}
-      </ul>
+      </Stagger>
       <p className="text-xs text-muted">Edit aur add ka option backend judne ke baad chalu hoga.</p>
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 function parts(target: number, now: number) {
   const diff = Math.max(0, target - now);
@@ -11,6 +12,25 @@ function parts(target: number, now: number) {
     s: Math.floor((diff / 1000) % 60),
     done: diff === 0,
   };
+}
+
+function Digit({ value }: { value: string }) {
+  return (
+    <span className="relative inline-block h-[1.2em] overflow-hidden">
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.span
+          key={value}
+          initial={{ y: "100%", opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: "-100%", opacity: 0 }}
+          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          className="inline-block tabular-nums"
+        >
+          {value}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
 }
 
 export function Countdown({ target, tone = "dark" }: { target: string; tone?: "dark" | "light" }) {
@@ -45,8 +65,8 @@ export function Countdown({ target, tone = "dark" }: { target: string; tone?: "d
         ] as const
       ).map(([label, v]) => (
         <div key={label} className={`w-[4.25rem] rounded-xl border py-2.5 text-center backdrop-blur sm:w-20 ${box}`}>
-          <div className="font-display text-2xl font-semibold tabular-nums sm:text-3xl">
-            {v === undefined ? "--" : String(v).padStart(2, "0")}
+          <div className="font-display text-2xl font-semibold sm:text-3xl">
+            {v === undefined ? "--" : <Digit value={String(v).padStart(2, "0")} />}
           </div>
           <div className="text-[10px] uppercase tracking-wider opacity-80">{label}</div>
         </div>

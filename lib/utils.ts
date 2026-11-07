@@ -1,7 +1,9 @@
 import clsx, { type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
+/** Joins class names and resolves Tailwind conflicts, so a later `hidden` beats an earlier `inline-flex`. */
 export function cn(...inputs: ClassValue[]) {
-  return clsx(inputs);
+  return twMerge(clsx(inputs));
 }
 
 export function formatDate(iso: string, opts?: Intl.DateTimeFormatOptions) {

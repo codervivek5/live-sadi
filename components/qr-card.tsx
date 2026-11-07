@@ -15,7 +15,7 @@ export function QrCard({ slug, names }: { slug: string; names: string }) {
     QRCode.toDataURL(full, {
       width: 640,
       margin: 2,
-      color: { dark: "#5a1520", light: "#ffffff" },
+      color: { dark: "#4a1226", light: "#ffffff" },
     })
       .then((data) => {
         setUrl(full);

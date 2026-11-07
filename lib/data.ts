@@ -23,6 +23,8 @@ export type MediaItem = {
   caption: string;
   by: string;
   src: string;
+  width: number;
+  height: number;
   status: "approved" | "pending";
 };
 
@@ -151,6 +153,8 @@ export const media: MediaItem[] = captions.map((caption, i) => ({
   caption,
   by: by[i],
   src: img(`wedding-${i + 1}`, 800, i % 3 === 0 ? 1000 : 640),
+  width: 800,
+  height: i % 3 === 0 ? 1000 : 640,
   status: i === 4 || i === 8 || i === 10 ? "pending" : "approved",
 }));
 
@@ -252,3 +256,68 @@ export const dashboardStats = {
   guestUploads: 37,
   blessings: 12,
 };
+
+export type Celebration = {
+  id: "pheras" | "haldi" | "mehndi" | "sangeet" | "reception";
+  name: string;
+  nameHi: string;
+  blurb: string;
+  detail: string;
+};
+
+/** The celebrations a Live Shadi page is built around. Used by the home page and /explore. */
+export const celebrations: Celebration[] = [
+  {
+    id: "pheras",
+    name: "Shaadi & Pheras",
+    nameHi: "विवाह",
+    blurb: "Jaimala se vidaai tak, poora mandap live.",
+    detail:
+      "The main ceremony is what far-away family most want to see. Stream the jaimala, the saat phere and the vidaai, and keep the full recording on the same page afterwards.",
+  },
+  {
+    id: "haldi",
+    name: "Haldi",
+    nameHi: "हल्दी",
+    blurb: "Peele rang, dhol aur masti.",
+    detail:
+      "Haldi is loud, joyful and over in an hour. Go live for the rasam, then let guests add their own photos from the day.",
+  },
+  {
+    id: "mehndi",
+    name: "Mehndi",
+    nameHi: "मेहंदी",
+    blurb: "Rang, geet aur family games.",
+    detail:
+      "Share the evening schedule and venue map, stream the music and games, and collect blessings from relatives who could not travel.",
+  },
+  {
+    id: "sangeet",
+    name: "Sangeet",
+    nameHi: "संगीत",
+    blurb: "Family performances ki poori raat.",
+    detail:
+      "Every performance becomes a replay you can rewatch. Guests can upload clips they recorded from their seats.",
+  },
+  {
+    id: "reception",
+    name: "Reception",
+    nameHi: "रिसेप्शन",
+    blurb: "Aashirwad samaroh aur dinner.",
+    detail:
+      "Keep the reception page open for late guests, with timings, dress code and the photo album in one place.",
+  },
+];
+
+export type Testimonial = {
+  id: string;
+  quote: string;
+  name: string;
+  detail: string;
+};
+
+/**
+ * Only add real, permissioned testimonials here. The section stays hidden while this list is empty,
+ * so the site never shows made-up reviews.
+ */
+export const testimonials: Testimonial[] = [];

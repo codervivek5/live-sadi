@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -8,41 +9,69 @@ import { Countdown } from "@/components/countdown";
 import { Gallery } from "@/components/gallery";
 import { GuestUpload } from "@/components/guest-upload";
 import { LiveSection } from "@/components/live-section";
+import { Reveal } from "@/components/motion";
+import { JsonLd } from "@/components/seo/json-ld";
+import { Skeleton } from "@/components/ui/skeleton";
 import { blessings, media, wedding } from "@/lib/data";
+import { pageMetadata, webPageJsonLd } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 export async function generateMetadata(props: PageProps<"/w/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
-  if (slug !== wedding.slug) return {};
-  return {
-    title: `${wedding.groom} weds ${wedding.bride} — Live Shadi`,
-    description: wedding.tagline,
-  };
+  // Couples' pages are private: only the public demo wedding may be indexed.
+  if (slug !== wedding.slug) return { robots: { index: false, follow: false } };
+  return pageMetadata({
+    title: `${wedding.groom} weds ${wedding.bride}`,
+    description: `${wedding.tagline}. Demo wedding page on Live Shadi: ${wedding.city}, ${formatDate(wedding.weddingDate, { day: "numeric", month: "long", year: "numeric" })}.`,
+    path: `/w/${slug}`,
+  });
+}
+
+function WeddingSkeleton() {
+  return (
+    <div aria-busy="true" aria-label="Loading wedding page">
+      <div className="h-14 border-b border-line" />
+      <div className="grid place-items-center bg-maroon-dark px-4 py-24">
+        <Skeleton className="h-14 w-72 bg-white/15" />
+        <Skeleton className="mt-6 h-5 w-64 bg-white/10" />
+        <div className="mt-10 flex gap-3">
+          {Array.from({ length: 4 }, (_, i) => (
+            <Skeleton key={i} className="h-16 w-16 bg-white/10" />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function Section({ id, title, subtitle, children }: { id: string; title: string; subtitle?: string; children: React.ReactNode }) {
   return (
     <section id={id} className="mx-auto max-w-6xl scroll-mt-16 px-4 py-12">
-      <h2 className="font-display text-3xl font-semibold text-maroon">{title}</h2>
-      {subtitle && <p className="mt-1 text-muted">{subtitle}</p>}
-      <div className="mt-6">{children}</div>
+      <Reveal>
+        <h2 className="font-display text-3xl font-semibold text-maroon">{title}</h2>
+        {subtitle && <p className="mt-1 text-muted">{subtitle}</p>}
+      </Reveal>
+      <Reveal className="mt-6" delay={0.08}>{children}</Reveal>
     </section>
   );
 }
 
-export default function WeddingPage(props: PageProps<"/w/[slug]">) {
+export function generateStaticParams() {
+  return [{ slug: wedding.slug }];
+}
+
+export default async function WeddingPage(props: PageProps<"/w/[slug]">) {
+  const { slug } = await props.params;
+  // Phase 1 UI: only the demo wedding exists. Real lookup arrives with the API.
+  if (slug !== wedding.slug) notFound();
   return (
-    <Suspense fallback={<div className="grid min-h-screen place-items-center text-muted">Shaadi ka page load ho raha hai…</div>}>
-      <WeddingContent params={props.params} />
+    <Suspense fallback={<WeddingSkeleton />}>
+      <WeddingContent />
     </Suspense>
   );
 }
 
-async function WeddingContent({ params }: { params: PageProps<"/w/[slug]">["params"] }) {
-  const { slug } = await params;
-  // Phase 1 UI: only the demo wedding exists. Real lookup arrives with the API.
-  if (slug !== wedding.slug) notFound();
-
+function WeddingContent() {
   const liveEvent = wedding.events.find((e) => e.status === "live");
 
   return (
@@ -62,11 +91,11 @@ async function WeddingContent({ params }: { params: PageProps<"/w/[slug]">["para
         </div>
       </nav>
 
-      <main>
+      <JsonLd data={webPageJsonLd({ name: `${wedding.groom} weds ${wedding.bride}`, description: wedding.tagline, path: `/w/${wedding.slug}` })} />
+      <main id="main">
         {/* Hero */}
         <header className="relative isolate overflow-hidden bg-maroon-dark text-center text-white">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={wedding.heroImage} alt="" className="absolute inset-0 -z-10 size-full object-cover opacity-30" />
+          <Image src={wedding.heroImage} alt="" fill priority sizes="100vw" className="-z-10 object-cover opacity-30" />
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-maroon-dark/60 via-maroon-dark/70 to-maroon-dark" />
           <div className="mx-auto max-w-3xl px-4 py-16 sm:py-24">
             <p className="text-sm tracking-[0.3em] text-gold">SHUBH VIVAH</p>

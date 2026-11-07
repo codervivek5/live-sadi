@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { MediaManager } from "@/components/media-manager";
 import { media } from "@/lib/data";
 
-export const metadata: Metadata = { title: "Photos — Live Shadi" };
+export const metadata: Metadata = { title: "Photos" };
 
 export default function MediaPage() {
   return (

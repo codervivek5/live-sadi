@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PrivacySettings } from "@/components/privacy-settings";
 import { wedding } from "@/lib/data";
 
-export const metadata: Metadata = { title: "Settings — Live Shadi" };
+export const metadata: Metadata = { title: "Settings" };
 
 export default function SettingsPage() {
   return (

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "motion/react";
 import { Check, Copy, Eye, EyeOff, Radio } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "./button";
 import type { WeddingEvent } from "@/lib/data";
 
@@ -64,10 +66,13 @@ export function LiveControl({ events }: { events: WeddingEvent[] }) {
 
         <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-gold-soft p-4">
           <div className="flex items-center gap-2 text-sm">
-            <Radio className={isLive ? "size-5 text-red-600" : "size-5 text-muted"} />
+            <motion.span animate={isLive ? { scale: [1, 1.25, 1] } : { scale: 1 }} transition={{ duration: 1.2, repeat: isLive ? Infinity : 0 }}><Radio className={isLive ? "size-5 text-red-600" : "size-5 text-muted"} /></motion.span>
             {isLive ? <span className="font-semibold text-red-600">LIVE chal raha hai · 184 viewers</span> : <span className="text-muted">Stream band hai</span>}
           </div>
-          <Button variant={isLive ? "outline" : "primary"} onClick={() => setLiveId(isLive ? null : selected)}>
+          <Button variant={isLive ? "outline" : "primary"} onClick={() => {
+              setLiveId(isLive ? null : selected);
+              toast(isLive ? "Live band kar diya gaya (demo)" : "Aap live ho gaye (demo)");
+            }}>
             {isLive ? "Live band karein" : "Go live"}
           </Button>
         </div>

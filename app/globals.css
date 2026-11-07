@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fffaf2;
-  --foreground: #2b1a1d;
+  --background: #fffdf8;
+  --foreground: #252525;
   --surface: #ffffff;
-  --muted: #7a6a6c;
-  --line: #eadfce;
-  --maroon: #7a1f2b;
-  --maroon-dark: #5a1520;
-  --gold: #c9a24b;
-  --gold-soft: #f6ecd2;
-  --rose: #fbeaea;
+  --muted: #77716b;
+  --line: #eee5d6;
+  --maroon: #701f3a;
+  --maroon-dark: #4a1226;
+  --gold: #d4af75;
+  --gold-soft: #f6eedf;
+  --rose: #fbefef;
+  --blush: #e8a6a6;
 }
 
 @theme inline {
@@ -24,12 +25,20 @@
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
   --color-rose: var(--rose);
+  --color-blush: var(--blush);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+/* two-tone ring: maroon on light surfaces, ivory halo keeps it visible on dark ones */
+:focus-visible {
+  outline: 2px solid var(--maroon);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--background);
 }
 
 body {
@@ -44,7 +53,7 @@ body {
 
 /* soft mandala-ish dotted pattern used on hero backgrounds */
 .pattern-dots {
-  background-image: radial-gradient(rgba(201, 162, 75, 0.35) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(212, 175, 117, 0.35) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 
@@ -64,24 +73,39 @@ body {
   animation: live-pulse 1.4s ease-in-out infinite;
 }
 
-/* one-time settle when the invitation card first appears on the landing hero */
-@keyframes invite-settle {
-  from {
-    opacity: 0;
-    transform: translateY(24px) rotate(-9deg);
+/* slow drifting marigold glows behind the hero */
+@keyframes glow-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0) rotate(-2deg);
+  50% {
+    transform: translate(40px, -30px) scale(1.15);
   }
 }
 
-.invite-settle {
-  animation: invite-settle 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+.glow-drift {
+  animation: glow-drift 14s ease-in-out infinite;
+}
+
+/* endless strip of function names */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 32s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .invite-settle {
+  .glow-drift,
+  .marquee-track {
     animation: none;
   }
   .live-dot {

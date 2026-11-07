@@ -1,8 +1,15 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { DashboardNav } from "@/components/dashboard-nav";
-import { Logo } from "@/components/site-header";
+import type { Metadata } from "next";
+import { Logo } from "@/components/layout/logo";
 import { wedding } from "@/lib/data";
+
+// private area: keep it out of search results
+export const metadata: Metadata = {
+  title: { default: "Dashboard", template: "%s | Live Shadi" },
+  robots: { index: false, follow: false },
+};
 
 export default function DashboardLayout({ children }: LayoutProps<"/dashboard">) {
   return (
@@ -24,11 +31,11 @@ export default function DashboardLayout({ children }: LayoutProps<"/dashboard">)
           </div>
         </div>
       </header>
-      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-6 md:grid-cols-[13rem_1fr]">
-        <aside>
+      <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] gap-6 px-4 py-6 md:grid-cols-[13rem_minmax(0,1fr)]">
+        <aside className="min-w-0">
           <DashboardNav />
         </aside>
-        <main className="min-w-0">{children}</main>
+        <main id="main" className="min-w-0">{children}</main>
       </div>
     </div>
   );

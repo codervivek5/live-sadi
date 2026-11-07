@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "motion/react";
+import { toast } from "sonner";
 import { Button } from "./button";
 import { QrCard } from "./qr-card";
 import type { WeddingEvent } from "@/lib/data";
@@ -14,9 +16,9 @@ function Toggle({ on, onChange, label }: { on: boolean; onChange: (v: boolean) =
       aria-checked={on}
       aria-label={label}
       onClick={() => onChange(!on)}
-      className={cn("relative h-6 w-11 shrink-0 rounded-full transition-colors", on ? "bg-maroon" : "bg-line")}
+      className={cn("flex h-6 w-11 shrink-0 items-center rounded-full px-0.5 transition-colors", on ? "justify-end bg-maroon" : "justify-start bg-line")}
     >
-      <span className={cn("absolute top-0.5 size-5 rounded-full bg-white shadow transition-all", on ? "left-[1.375rem]" : "left-0.5")} />
+      <motion.span layout transition={{ type: "spring", stiffness: 500, damping: 32 }} className="size-5 rounded-full bg-white shadow" />
     </button>
   );
 }
@@ -28,7 +30,6 @@ export function PrivacySettings({ events, slug, names }: { events: WeddingEvent[
   const [vis, setVis] = useState<Record<string, boolean>>(
     Object.fromEntries(events.map((e) => [e.id, e.id !== "haldi"])),
   );
-  const [saved, setSaved] = useState(false);
 
   return (
     <div className="space-y-5">
@@ -77,21 +78,17 @@ export function PrivacySettings({ events, slug, names }: { events: WeddingEvent[
         <h2 className="font-semibold">QR code badlein</h2>
         <p className="mb-4 text-xs text-muted">Agar link galat logon tak pahunch gaya ho to naya link banayein. Purana QR kaam karna band kar dega.</p>
         <QrCard slug={slug} names={names} />
-        <Button variant="outline" className="mt-4" onClick={() => alert("Demo: naya QR backend ke baad banega.")}>
+        <Button variant="outline" className="mt-4" onClick={() => toast("Demo: naya QR backend judne ke baad banega.")}>
           Naya QR banayein
         </Button>
       </section>
 
       <div className="flex items-center gap-3">
         <Button
-          onClick={() => {
-            setSaved(true);
-            setTimeout(() => setSaved(false), 1800);
-          }}
+          onClick={() => toast.success("Settings save ho gayi (demo)")}
         >
           Save karein
         </Button>
-        {saved && <span className="text-sm text-green-700" role="status">Save ho gaya (demo)</span>}
       </div>
     </div>
   );

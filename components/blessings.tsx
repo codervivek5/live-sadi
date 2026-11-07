@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { Heart } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "./button";
 import type { Blessing } from "@/lib/data";
 
@@ -20,6 +22,7 @@ export function Blessings({ initial }: { initial: Blessing[] }) {
       ...prev,
     ]);
     setForm({ name: "", city: "", message: "" });
+    toast.success("Aapka aashirwad jod diya gaya");
   }
 
   return (
@@ -36,13 +39,24 @@ export function Blessings({ initial }: { initial: Blessing[] }) {
       </form>
 
       <ul className="grid gap-3 sm:grid-cols-2 lg:col-span-3 lg:content-start">
-        {list.map((b) => (
-          <li key={b.id} className="rounded-2xl border border-line bg-white p-4">
-            <p className="text-sm leading-relaxed">“{b.message}”</p>
-            <p className="mt-3 text-sm font-semibold text-maroon">{b.name}</p>
-            <p className="text-xs text-muted">{b.relation} · {b.city}</p>
-          </li>
-        ))}
+        <AnimatePresence initial={false} mode="popLayout">
+          {list.map((b) => (
+            <motion.li
+              key={b.id}
+              layout
+              initial={{ opacity: 0, scale: 0.9, y: -16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 320, damping: 26 }}
+              whileHover={{ y: -3 }}
+              className="rounded-2xl border border-line bg-white p-4"
+            >
+              <p className="text-sm leading-relaxed">“{b.message}”</p>
+              <p className="mt-3 text-sm font-semibold text-maroon">{b.name}</p>
+              <p className="text-xs text-muted">{b.relation} · {b.city}</p>
+            </motion.li>
+          ))}
+        </AnimatePresence>
       </ul>
     </div>
   );

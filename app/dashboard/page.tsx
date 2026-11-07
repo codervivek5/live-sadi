@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { Eye, Heart, ImagePlus, Radio, Users } from "lucide-react";
 import { QrCard } from "@/components/qr-card";
 import { ButtonLink } from "@/components/button";
+import { CountUp, Reveal, Stagger, StaggerItem } from "@/components/motion";
 import { blessings, dashboardStats, media, packages, wedding } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Dashboard — Live Shadi" };
+export const metadata: Metadata = { title: "Dashboard" };
 
 export default function DashboardHome() {
   const pending = media.filter((m) => m.status === "pending").length;
@@ -26,18 +27,18 @@ export default function DashboardHome() {
         </p>
       </div>
 
-      <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <Stagger className="grid grid-cols-2 gap-3 lg:grid-cols-4" gap={0.07}>
         {stats.map((s) => (
-          <div key={s.label} className="rounded-2xl border border-line bg-white p-4">
+          <StaggerItem key={s.label} className="rounded-2xl border border-line bg-white p-4 transition-shadow hover:shadow-md">
             <s.icon className="size-5 text-gold" />
-            <p className="mt-2 text-2xl font-semibold tabular-nums">{s.value.toLocaleString("en-IN")}</p>
+            <p className="mt-2 text-2xl font-semibold tabular-nums"><CountUp to={s.value} /></p>
             <p className="text-xs text-muted">{s.label}</p>
-          </div>
+          </StaggerItem>
         ))}
-      </section>
+      </Stagger>
 
       <div className="grid gap-6 lg:grid-cols-5">
-        <section className="space-y-4 lg:col-span-3">
+        <Reveal className="space-y-4 lg:col-span-3" delay={0.1}>
           {pending > 0 && (
             <div className="flex items-center justify-between gap-3 rounded-2xl border border-gold bg-gold-soft p-4 text-sm">
               <span className="flex items-center gap-2"><Users className="size-4" /> {pending} guest photos approval ka intezaar kar rahi hain</span>
@@ -69,12 +70,12 @@ export default function DashboardHome() {
               ))}
             </ul>
           </div>
-        </section>
+        </Reveal>
 
-        <section className="lg:col-span-2">
+        <Reveal className="lg:col-span-2" delay={0.2}>
           <h2 className="mb-3 font-semibold">Aapka QR code</h2>
           <QrCard slug={wedding.slug} names={`${wedding.groom} & ${wedding.bride}`} />
-        </section>
+        </Reveal>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LiveControl } from "@/components/live-control";
 import { wedding } from "@/lib/data";
 
-export const metadata: Metadata = { title: "Live — Live Shadi" };
+export const metadata: Metadata = { title: "Live" };
 
 export default function LivePage() {
   return (

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { Check, Play, Trash2, X } from "lucide-react";
+import { toast } from "sonner";
 import type { MediaItem } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -13,8 +15,14 @@ export function MediaManager({ initial }: { initial: MediaItem[] }) {
   const approved = items.filter((m) => m.status === "approved");
   const shown = tab === "pending" ? pending : approved;
 
-  const approve = (id: string) => setItems((p) => p.map((m) => (m.id === id ? { ...m, status: "approved" } : m)));
-  const remove = (id: string) => setItems((p) => p.filter((m) => m.id !== id));
+  const approve = (id: string) => {
+    setItems((p) => p.map((m) => (m.id === id ? { ...m, status: "approved" } : m)));
+    toast.success("Photo approve ho gayi, ab page par dikhegi");
+  };
+  const remove = (id: string) => {
+    setItems((p) => p.filter((m) => m.id !== id));
+    toast("Photo hata di gayi");
+  };
 
   return (
     <div>
@@ -45,8 +53,17 @@ export function MediaManager({ initial }: { initial: MediaItem[] }) {
         <p className="py-14 text-center text-muted">{tab === "pending" ? "Sab approve ho chuka hai 🎉" : "Abhi koi media nahi."}</p>
       ) : (
         <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          <AnimatePresence mode="popLayout" initial={false}>
           {shown.map((m) => (
-            <li key={m.id} className="overflow-hidden rounded-xl border border-line bg-white">
+            <motion.li
+              key={m.id}
+              layout
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8, y: -12 }}
+              transition={{ type: "spring", stiffness: 340, damping: 30 }}
+              className="overflow-hidden rounded-xl border border-line bg-white"
+            >
               <div className="relative aspect-square bg-gold-soft">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={m.src} alt={m.caption} loading="lazy" className="size-full object-cover" />
@@ -76,8 +93,9 @@ export function MediaManager({ initial }: { initial: MediaItem[] }) {
                   </button>
                 </div>
               </div>
-            </li>
+            </motion.li>
           ))}
+          </AnimatePresence>
         </ul>
       )}
     </div>

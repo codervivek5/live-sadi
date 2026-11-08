@@ -46,7 +46,24 @@ export type Wedding = {
   weddingDate: string;
   hostPhone: string;
   heroImage: string;
+  parents: {
+    groom: string;
+    bride: string;
+  };
   events: WeddingEvent[];
+};
+
+export type GuestRsvp = {
+  id: string;
+  name: string;
+  phone: string;
+  attending: boolean;
+  adultsCount: number;
+  kidsCount: number;
+  attendingEvents: string[]; // event IDs
+  diet: "veg" | "jain" | "all";
+  note?: string;
+  submittedAt: string;
 };
 
 const img = (seed: string, w = 800, h = 600) =>
@@ -63,6 +80,10 @@ export const wedding: Wedding = {
   weddingDate: "2026-11-08T20:00:00+05:30",
   hostPhone: "+91 98XXXXXX10",
   heroImage: img("shadi-hero", 1600, 900),
+  parents: {
+    groom: "Smt. Sharda & Shri Kailash Sharma",
+    bride: "Smt. Nirmala & Shri Mahesh Joshi",
+  },
   events: [
     {
       id: "haldi",
@@ -255,7 +276,83 @@ export const dashboardStats = {
   liveViewersPeak: 184,
   guestUploads: 37,
   blessings: 12,
+  rsvpsCount: 15,
 };
+
+export const sampleRsvps: GuestRsvp[] = [
+  {
+    id: "rsvp-1",
+    name: "Ramesh Sharma & Family",
+    phone: "9829012345",
+    attending: true,
+    adultsCount: 4,
+    kidsCount: 1,
+    attendingEvents: ["haldi", "mehndi", "sangeet", "pheras", "reception"],
+    diet: "veg",
+    note: "Pura parivar shamil hoga! Bahut bahut badhai.",
+    submittedAt: "2026-11-04T10:15:00+05:30",
+  },
+  {
+    id: "rsvp-2",
+    name: "Sunita Verma (Mami Ji)",
+    phone: "9829123456",
+    attending: true,
+    adultsCount: 2,
+    kidsCount: 0,
+    attendingEvents: ["sangeet", "pheras", "reception"],
+    diet: "jain",
+    note: "Shubh vivah! Hum 7 tarikh sham ko pahunch rahe hain.",
+    submittedAt: "2026-11-04T14:30:00+05:30",
+  },
+  {
+    id: "rsvp-3",
+    name: "Rajesh Gupta & Parivar",
+    phone: "9829234567",
+    attending: true,
+    adultsCount: 3,
+    kidsCount: 2,
+    attendingEvents: ["mehndi", "sangeet", "pheras", "reception"],
+    diet: "veg",
+    note: "Bachche bahut excited hain dance ke liye!",
+    submittedAt: "2026-11-05T09:45:00+05:30",
+  },
+  {
+    id: "rsvp-4",
+    name: "Vivek & Ananya Malhotra",
+    phone: "9829345678",
+    attending: true,
+    adultsCount: 2,
+    kidsCount: 0,
+    attendingEvents: ["sangeet", "pheras"],
+    diet: "all",
+    note: "Can't wait to witness this beautiful union!",
+    submittedAt: "2026-11-05T16:20:00+05:30",
+  },
+  {
+    id: "rsvp-5",
+    name: "Alok Khurana",
+    phone: "9829456789",
+    attending: false,
+    adultsCount: 0,
+    kidsCount: 0,
+    attendingEvents: [],
+    diet: "all",
+    note: "Tabiyat theek na hone ki wajah se nahi aa paunga, par live poora dekhunga. Khoob aashirwad!",
+    submittedAt: "2026-11-06T11:00:00+05:30",
+  },
+  {
+    id: "rsvp-6",
+    name: "Meera Chawla (Masi Ji)",
+    phone: "9829567890",
+    attending: true,
+    adultsCount: 2,
+    kidsCount: 1,
+    attendingEvents: ["haldi", "mehndi", "sangeet", "pheras", "reception"],
+    diet: "veg",
+    note: "Haldi se leke vidaai tak saath rahenge.",
+    submittedAt: "2026-11-06T18:10:00+05:30",
+  },
+];
 
 export type Celebration = {
   id: "pheras" | "haldi" | "mehndi" | "sangeet" | "reception";

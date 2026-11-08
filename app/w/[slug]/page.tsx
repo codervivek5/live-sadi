@@ -9,6 +9,8 @@ import { Countdown } from "@/components/countdown";
 import { Gallery } from "@/components/gallery";
 import { GuestUpload } from "@/components/guest-upload";
 import { LiveSection } from "@/components/live-section";
+import { RsvpForm } from "@/components/invite/rsvp-form";
+import { ButtonLink } from "@/components/button";
 import { Reveal } from "@/components/motion";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -83,6 +85,7 @@ function WeddingContent() {
             {wedding.groom} <span className="text-gold">&amp;</span> {wedding.bride}
           </span>
           <div className="flex gap-4 overflow-x-auto text-sm text-muted [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <a href="#invite" className="whitespace-nowrap hover:text-maroon">Nimantran &amp; RSVP</a>
             <a href="#live" className="whitespace-nowrap hover:text-maroon">Live</a>
             <a href="#photos" className="whitespace-nowrap hover:text-maroon">Photos</a>
             <a href="#upload" className="whitespace-nowrap hover:text-maroon">Upload</a>
@@ -124,6 +127,38 @@ function WeddingContent() {
         <Section id="story" title="Hamari kahani">
           <p className="max-w-2xl leading-relaxed text-muted">{wedding.story}</p>
         </Section>
+
+        <div className="bg-gradient-to-b from-gold-soft/40 to-rose/20 border-y border-gold/30">
+          <Section
+            id="invite"
+            title="Digital Nimantran &amp; RSVP"
+            subtitle="Shubh vivah ka digital nimantran patra dekhein, parivar ko share karein aur upasthiti darj karein."
+          >
+            <div className="grid gap-8 lg:grid-cols-5 items-start">
+              <div className="lg:col-span-2 rounded-3xl border border-gold/50 bg-white p-6 sm:p-8 shadow-sm text-center space-y-4">
+                <span className="text-3xl">🪔</span>
+                <p className="font-serif text-sm font-semibold text-maroon">॥ श्री गणेशाय नमः ॥</p>
+                <h3 className="font-display text-2xl font-bold text-maroon">
+                  {wedding.groom} &amp; {wedding.bride}
+                </h3>
+                <p className="text-xs text-muted leading-relaxed">
+                  Aapko aur aapke samast parivar ko vivah samaroh mein aamantrit kiya jata hai. Poora digital card kholein ya WhatsApp par kisi ko bhejein.
+                </p>
+                <div className="pt-2 flex flex-col gap-2.5">
+                  <ButtonLink href={`/w/${wedding.slug}/invite`} variant="primary" className="py-2.5">
+                    Poora Nimantran Card Kholein
+                  </ButtonLink>
+                  <ButtonLink href={`/w/${wedding.slug}/invite`} variant="outline" className="py-2.5">
+                    WhatsApp / QR Share Karein
+                  </ButtonLink>
+                </div>
+              </div>
+              <div className="lg:col-span-3">
+                <RsvpForm events={wedding.events} weddingSlug={wedding.slug} />
+              </div>
+            </div>
+          </Section>
+        </div>
 
         <div className="bg-white">
           <Section id="live" title="Live aur functions" subtitle="Kisi bhi function par tap karein — live ho to dekhein, khatam ho gaya to replay.">

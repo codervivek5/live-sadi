@@ -39,6 +39,17 @@ export default function DashboardHome() {
 
       <div className="grid gap-6 lg:grid-cols-5">
         <Reveal className="space-y-4 lg:col-span-3" delay={0.1}>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 rounded-2xl border border-gold bg-gradient-to-r from-gold-soft/80 to-rose/30 p-4">
+            <div>
+              <span className="text-[11px] font-semibold text-gold uppercase tracking-wider">Digital Invitations &amp; RSVP</span>
+              <h2 className="font-semibold text-maroon text-base">Guest Count &amp; Aamantran Status</h2>
+              <p className="text-xs text-muted mt-0.5">Mehmaanon ki upasthiti, bhojan ki count aur personalized WhatsApp invite bhejein.</p>
+            </div>
+            <ButtonLink href="/dashboard/rsvps" variant="primary" className="shrink-0 text-xs py-2">
+              RSVPs Dekhein
+            </ButtonLink>
+          </div>
+
           {pending > 0 && (
             <div className="flex items-center justify-between gap-3 rounded-2xl border border-gold bg-gold-soft p-4 text-sm">
               <span className="flex items-center gap-2"><Users className="size-4" /> {pending} guest photos approval ka intezaar kar rahi hain</span>

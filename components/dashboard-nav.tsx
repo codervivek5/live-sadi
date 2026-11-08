@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
-import { CalendarDays, Images, LayoutDashboard, Radio, Settings } from "lucide-react";
+import { CalendarDays, Images, LayoutDashboard, Radio, Settings, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
   { href: "/dashboard/events", label: "Functions", icon: CalendarDays },
+  { href: "/dashboard/rsvps", label: "RSVP & Guests", icon: Users },
   { href: "/dashboard/media", label: "Photos", icon: Images },
   { href: "/dashboard/live", label: "Live", icon: Radio },
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
